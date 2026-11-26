@@ -1,0 +1,52 @@
+RELATÓRIO DE MONTAGEM — 26 de novembro de 2026
+
+Pacote local, sem publicação, sem criar repositório e sem git remoto.
+
+COPIADOS
+- app/index.html
+- app/app.js
+- app/motor.js
+- app/dados/conteudo.js
+- app/dados/casos.js
+- app/testes/index.html
+- app/testes/bateria.js
+- app/testes/HASH.txt
+- app/testes/RELATORIO_rodada1.txt
+- app/testes/RELATORIO_usabilidade_26-11.txt
+- app/testes/relatorio_testador_independente.md
+- app/testes/relatorio_testador_independente_r2.md
+- app/testes/cobertura/RESUMO_cobertura.md
+- app/testes/cobertura/RESUMO_cobertura_v2.md
+- protocolo.md
+
+A seleção exclui fontes/, .htaccess e todos os materiais não solicitados.
+Documentação de raiz criada em português: README, licenças MIT e CC BY 4.0, citação, histórico, uso, contribuições, avisos de terceiros, atributos, exclusões e integridade.
+
+ALTERAÇÕES
+- casos.js: 15 referências locais substituídas por links oficiais da coluna url, correspondentes a 8 fontes distintas; 0 campos sem URL.
+- Nos dois resumos de cobertura, uma ocorrência por arquivo do verbo referente a avaliar artigos foi trocada por “analisar”, para neutralizar a coincidência literal com o termo de higiene.
+- app/app.js: cópia atualizada da origem durante a montagem; verbo de planejamento trocado por “planejar” para neutralizar a mesma coincidência literal.
+- Demais arquivos copiados sem alterações; bateria congelada preservada byte a byte.
+- Histórico convertido da seção 10 do protocolo para lista; oito passos resumidos da seção 5.
+
+HIGIENE
+Todos os arquivos foram examinados pelos termos solicitados e por padrões de caminhos pessoais. Nenhuma ocorrência sensível. Três coincidências literais em uma palavra comum foram neutralizadas nos resumos de cobertura e na interface. A busca literal coincide com o nome de autoria Itamar, preservado por exigência expressa. A referência ao provedor fica somente no protocolo, conforme exceção autorizada. Arquivos não selecionados com caminhos pessoais não foram copiados.
+
+VALIDAÇÃO
+- Node indisponível; JSON da atribuição window.CASOS validado por Python.
+- Os quatro caminhos de scripts do índice de testes resolvem dentro do pacote.
+- Hash da bateria confere com HASH.txt.
+- Resultado esperado documentado: 26/27, com defeito do teste 27 conforme relatório original. Bateria de navegador não executada nesta montagem.
+- Este relatório integra SHA256SUMS.txt; só o próprio manifesto é excluído.
+- Verificador executado após gerar os hashes: integridade OK para todos os arquivos.
+- ZIP da pasta gerado após verificar e conferido byte a byte com os arquivos locais.
+
+LINKS POR FONTE
+- F01: https://ppghis.ufop.br/sites/default/files/ppghis/files/resolucao_ppghis_01_-_2026_-_normas_sobre_o_uso_de_inteligencia_artificial_generativa_iagen_no_ambito_das_pesquisas.pdf?m=1784918199
+- F02: https://sigaa.ufpb.br/sigaa/verProducao?idProducao=8599881&key=70c88cdf9da43f51d88ecd0bf99ee661
+- F07: https://educare.fiocruz.br/file-storage/ykvdp7xA
+- F09: https://ppg.uem.br/arquivos-gerais/instrucao-normativa-01-2026-gre-uso-de-ia.pdf
+- F12: https://sustentabilidade.ufop.br/sites/default/files/sustentabilidade/files/res_conpep_144_-_diretrizes_inteligencia_artificial_generativa.pdf?m=1760375267
+- F29: https://ppghis.historia.ufrj.br/wp-content/uploads/2025/06/PPGHIS-2025_2-Gabriel_Historia-Social-das-Emocoes_FINAL-1.pdf
+- F33: https://boletim-mgm.uffs.edu.br/atos-normativos/resolucao/consunicppgec/2026-0091
+- F75: https://uenf.br/reitoria/wp-content/uploads/2025/12/Portaria-Reitoria-468-2025-Dispoe-sobre-uso-etico-e-responsavel-de-instrumentos-de-inteligencia-artificial-IA.pdf

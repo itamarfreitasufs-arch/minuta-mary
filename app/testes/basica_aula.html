@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Testes da turma — Minuta, Mary!</title>
+<style>body{font:14px system-ui;margin:20px} .ok{color:#1a7f4b} .falha{color:#b42318;font-weight:600} pre{background:#f5f5f5;padding:6px;white-space:pre-wrap}</style></head>
+<body><h1>Bateria congelada — educação básica / sala de aula</h1><div id="r"></div>
+<script src="../dados/conteudo.js"></script><script src="../dados/casos.js"></script><script src="../dados/basica_aula.js"></script>
+<script>window.DADOS = window.TRILHAS.basica_aula;</script>
+<script src="../motor.js"></script><script src="bateria_basica_aula.js"></script>
+<script>
+const out = []; let ok = 0;
+for (const c of window.BATERIA_BASICA_AULA) {
+  const { minuta, problemas } = Motor.revisar(c.e);
+  const txt = Motor.textoMinuta(minuta, c.e); const cods = problemas.map(p => p.codigo); const erros = [];
+  (c.tem || []).forEach(k => { if (!cods.includes(k)) erros.push("faltou acusar " + k); });
+  (c.naoTem || []).forEach(k => { if (cods.includes(k)) erros.push("acusou indevidamente " + k); });
+  if (c.semNivel && problemas.some(p => p.nivel === c.semNivel || (c.semNivel === "aviso" && p.nivel === "erro"))) erros.push("há " + c.semNivel + " ou pior: " + problemas.filter(p => p.nivel !== "dica").map(p => p.codigo).join(","));
+  Object.entries(c.nivel || {}).forEach(([k, n]) => { const p = problemas.find(p => p.codigo === k); if (!p || p.nivel !== n) erros.push(k + " deveria ser " + n); });
+  (c.contem || []).forEach(s => { if (!txt.includes(s)) erros.push("minuta sem: " + s); });
+  (c.naoContem || []).forEach(s => { if (txt.includes(s)) erros.push("minuta contém: " + s); });
+  (c.aplicaveisSem || []).forEach(id => { if (Motor.aplicavel(Motor.dispositivo(id), c.e)) erros.push("tema aplicável indevidamente: " + id); });
+  if (!erros.length) ok++;
+  out.push({ nome: c.nome, erros, cods, txt });
+}
+window.RESULTADO = { total: out.length, ok, falhas: out.filter(x => x.erros.length).map(x => ({ nome: x.nome, erros: x.erros, cods: x.cods })) };
+document.getElementById("r").innerHTML = `<p><b>${ok}/${out.length}</b> casos passaram.</p>` +
+  out.map(x => `<div class="${x.erros.length ? "falha" : "ok"}">${x.erros.length ? "FALHOU" : "ok"} — ${x.nome}${x.erros.length ? "<pre>" + x.erros.join("\n") + "\nacusou: " + x.cods.join(", ") + "</pre>" : ""}</div>`).join("");
+</script></body></html>

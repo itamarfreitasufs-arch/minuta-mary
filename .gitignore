@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.zip
+__pycache__/
+
+# contador: segredo e dados de uso nunca vão para o repositório
+servidor/contagem/chave.txt
+servidor/contagem/*.json

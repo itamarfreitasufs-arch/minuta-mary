@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f1e8">
+<title>Minuta, Mary!</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%232d3468'/%3E%3Cg transform='rotate(28 20 20)'%3E%3Cpath d='M20 5c6 7 9 15 7.5 23L20 35l-7.5-7C11 20 14 12 20 5Z' fill='%23fffdf8'/%3E%3Cpath d='M20 34V22' stroke='%232d3468' stroke-width='1.6'/%3E%3Ccircle cx='20' cy='20' r='2.4' fill='%232d3468'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  /* Minuta, Mary! — identidade própria: papel creme e serifa (parentesco com o "Pode isso, Jane?"),
+     tinta índigo como cor principal e vermelho-lacre como assinatura. */
+  :root {
+    --tinta:#1d2433; --suave:#535b69; --linha:#e2dccf; --linha-forte:#cfc7b6;
+    --fundo:#f5f1e8; --cartao:#fffdf8; --branco:#fff;
+    --acento:#2d3468; --acento-escuro:#21274f; --acento-fundo:#ecedf4; --acento-borda:#c6c8dc;
+    --lacre:#a63a24;
+    --azul:#2d3468; --vermelho:#9b2318; --verde:#1b6a43; --cinza:#55606a; --roxo:#5d3a91; --laranja:#8a4a00;
+    --vermelho-fundo:#fbeceA; --laranja-fundo:#fcf1dc; --foco:#c2410c;
+    --serifa:"Palatino Linotype", Palatino, "Book Antiqua", "Iowan Old Style", Georgia, serif;
+    --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --sombra:0 1px 2px rgba(45,38,20,.05), 0 2px 8px rgba(45,38,20,.04);
+    --trilha-h:64px;
+  }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; font:16px/1.55 var(--sans); color:var(--tinta); background:var(--fundo); -webkit-font-smoothing:antialiased; }
+  :focus-visible { outline:3px solid var(--foco); outline-offset:2px; border-radius:6px; }
+  input[type=radio], input[type=checkbox] { accent-color:var(--acento); width:18px; height:18px; flex:none; }
+  a { color:var(--acento); text-underline-offset:2px; text-decoration-thickness:1px; }
+  a:hover { text-decoration-thickness:2px; }
+  .ico { flex:none; vertical-align:-4px; }
+
+  /* Cabeçalho: marca */
+  header { padding:14px 20px 12px; }
+  header h1 { margin:0 auto; max-width:1080px; font-size:inherit; }
+  .logo { display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--tinta); min-height:44px; padding-right:6px; border-radius:10px; }
+  .logo .selo { width:36px; height:36px; flex:none; }
+  .logo-txt { display:flex; flex-direction:column; line-height:1.05; }
+  .logo-nome { font-family:var(--serifa); font-size:23px; font-weight:700; letter-spacing:-.01em; color:var(--acento); }
+  .logo-nome em { color:var(--lacre); }
+  .logo-sub { font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--suave); margin-top:3px; }
+
+  /* Abas (início, casos, método) */
+  nav.abas { display:flex; gap:4px; flex-wrap:wrap; max-width:880px; margin:0 auto; padding:0 6px 0 20px; justify-content:flex-end; }
+  /* O texto do último link termina alinhado à borda do conteúdo (descontado o recuo interno do botão). */
+  nav.abas button { font:inherit; font-size:15px; font-weight:600; display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 14px; border:0; border-radius:999px; background:none; color:var(--tinta); cursor:pointer; }
+  nav.abas button:hover { color:var(--acento); background:var(--acento-fundo); }
+  nav.abas button.atual { color:var(--acento); background:var(--acento-fundo); }
+  body:has(nav.abas) header { padding-bottom:0; }
+  /* Na tela inicial o título grande já é a marca: o logotipo do topo some. */
+  body:has(.abertura) header { display:none; }
+  body:has(.abertura) nav.abas { padding-top:8px; justify-content:flex-end; max-width:1080px; width:100%; }
+  /* Tela inicial: página em coluna; a abertura ocupa o meio e fica centralizada; um rodapé só no fim. */
+  body:has(.abertura) { display:flex; flex-direction:column; min-height:100vh; min-height:100svh; }
+  body:has(.abertura) main { flex:1; display:flex; flex-direction:column; width:100%; padding-bottom:0; }
+  body:has(.abertura) footer { border-top:0; padding-top:0; max-width:1080px; width:100%; }
+
+  /* Trilha dos 8 passos: fixa no topo ao rolar, com fundo cheio (nada fica cortado por baixo). */
+  nav.trilha { position:sticky; top:0; z-index:20; background:var(--fundo); border-bottom:1px solid var(--linha); box-shadow:0 6px 12px -10px rgba(45,38,20,.25); }
+  .trilha-in { max-width:1120px; margin:0 auto; padding:6px 20px 8px; display:flex; align-items:center; gap:10px; }
+  .trilha .casa { flex:none; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:10px; background:none; color:var(--suave); cursor:pointer; }
+  .trilha .casa:hover { background:var(--acento-fundo); color:var(--acento); }
+  .trilha-conta { flex:none; font-size:13px; color:var(--suave); white-space:nowrap; padding-right:4px; }
+  .trilha-conta b { color:var(--tinta); }
+  .trilha ol { list-style:none; margin:0; padding:0; display:flex; gap:4px; flex:1; min-width:0; position:relative; }
+  .trilha li { flex:1 1 0; min-width:0; }
+  .trilha ol button { position:relative; width:100%; min-height:48px; display:flex; align-items:center; gap:6px; padding:10px 4px 4px; border:0; border-radius:8px; background:none; font:inherit; font-size:12.5px; line-height:1.2; color:var(--suave); text-align:left; cursor:pointer; }
+  .trilha ol button::before { content:""; position:absolute; left:2px; right:2px; top:2px; height:4px; border-radius:4px; background:var(--linha-forte); transition:background-color .25s; }
+  .trilha ol button:hover { background:var(--acento-fundo); }
+  .trilha .pn { flex:none; width:22px; height:22px; border-radius:50%; display:grid; place-items:center; font-size:12px; font-weight:700; border:1.5px solid var(--linha-forte); color:var(--suave); background:var(--cartao); }
+  .trilha .pnome { overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+  .trilha button.feito::before { background:var(--acento); opacity:.45; }
+  .trilha button.feito .pn { border-color:var(--acento); color:var(--acento); }
+  .trilha button.atual::before { background:var(--acento); }
+  .trilha button.atual { color:var(--tinta); font-weight:700; }
+  .trilha button.atual .pn { background:var(--acento); border-color:var(--acento); color:#fff; }
+
+  @media (min-width:761px) and (max-width:1080px) { .trilha-conta { display:none; } }
+  main { max-width:880px; margin:0 auto; padding:22px 20px 64px; }
+  main.entra { animation:entra .26s ease-out both; }
+  /* Só deslizamento, sem esmaecer: se o navegador pausar a animação, a tela continua nítida e com as cores certas. */
+  @keyframes entra { from { transform:translateY(10px); } to { transform:none; } }
+  h2 { font-family:var(--serifa); font-size:29px; font-weight:700; line-height:1.2; letter-spacing:-.01em; margin:4px 0 8px; }
+  h3 { font-size:16px; line-height:1.3; margin:22px 0 8px; }
+  p { margin:.55em 0; }
+
+  /* Tela inicial */
+  main:has(.abertura) { max-width:1080px; }
+  .abertura { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(28px,5vw,72px); align-items:center; align-content:center; flex:1; padding:24px 0 32px; }
+  .chamada { font-size:clamp(44px,5.2vw,72px); line-height:1.08; letter-spacing:-.02em; margin:0 0 14px; color:var(--tinta); }
+  .chamada { font-family:var(--serifa); font-weight:700; color:var(--acento); display:flex; align-items:center; gap:.3em; flex-wrap:nowrap; white-space:nowrap; }
+  .chamada em { color:var(--lacre); }
+  .selo-grande { display:inline-flex; }
+  .selo-grande svg { width:1.05em; height:1.05em; }
+  .subtitulo { text-wrap:balance; font-size:clamp(19px,1.8vw,23px); line-height:1.45; color:var(--tinta); margin:0 0 32px; max-width:30em; }
+  button.prim.cta { display:inline-flex; align-items:center; gap:10px; font-size:19px; padding:15px 30px; min-height:58px; border-radius:12px; box-shadow:0 6px 18px -8px rgba(45,52,104,.7); }
+  button.prim.cta .ico { transition:transform .2s; }
+  button.prim.cta:hover .ico { transform:translateX(3px); }
+  .atalhos { display:flex; flex-wrap:wrap; gap:4px 18px; margin-top:20px; }
+  button.atalho { font:inherit; font-size:15px; font-weight:600; display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 4px; border:0; background:none; color:var(--acento); cursor:pointer; border-radius:8px; }
+  button.atalho span { text-decoration:underline; text-decoration-color:var(--acento-borda); text-underline-offset:4px; }
+  button.atalho:hover span { text-decoration-color:currentColor; }
+  .ilustra { width:100%; max-width:400px; height:auto; justify-self:center; }
+  .rodape-inicio { border-top:1px solid var(--linha); padding-top:14px; margin-top:8px; text-align:center; }
+  .rodape-inicio .aviso-fixo { line-height:1.45; margin:0 0 6px; }
+  .rodape-inicio a { display:inline-flex; align-items:center; min-height:44px; color:var(--suave); }
+  .rodape-inicio a:hover { color:var(--acento); }
+
+  /* Lição (explicação do passo) */
+  .licao { background:var(--acento-fundo); border:1px solid var(--acento-borda); border-left:4px solid var(--acento); padding:12px 16px; border-radius:10px; margin:10px 0 18px; font-size:15px; line-height:1.6; }
+  .licao b { color:var(--acento); }
+
+  /* Cartões e opções */
+  .cartao { background:var(--cartao); border:1px solid var(--linha); border-radius:12px; padding:14px 16px; margin:10px 0; box-shadow:var(--sombra); }
+  .opcao { display:flex; gap:10px; align-items:flex-start; padding:10px 10px; min-height:44px; border-radius:9px; cursor:pointer; line-height:1.45; transition:background-color .15s; }
+  .opcao:hover { background:#f3efe4; }
+  .opcao input { margin-top:2px; }
+  .opcao.sel { background:var(--acento-fundo); box-shadow:inset 0 0 0 1px var(--acento-borda); }
+  label.campo { display:block; margin:14px 0 4px; font-weight:600; font-size:14px; }
+  input[type=text], textarea, select { width:100%; font:inherit; padding:10px 12px; min-height:46px; border:1px solid #b3b0a6; border-radius:9px; background:var(--branco); color:var(--tinta); transition:border-color .15s, box-shadow .15s; }
+  input[type=text]:focus, textarea:focus, select:focus { border-color:var(--acento); box-shadow:0 0 0 3px rgba(45,52,104,.15); }
+  textarea { min-height:76px; resize:vertical; line-height:1.5; }
+  ::placeholder { color:#6d7380; }
+  .ex { color:var(--suave); font-size:13.5px; }
+  .linha { display:flex; gap:0 12px; flex-wrap:wrap; } .linha > * { flex:1 1 240px; min-width:0; }
+
+  /* Botões */
+  .botoes { display:flex; gap:10px; justify-content:space-between; margin-top:28px; padding-top:18px; border-top:1px solid var(--linha); }
+  button.prim, button.sec { font:inherit; font-size:15px; font-weight:600; border-radius:10px; padding:10px 18px; min-height:44px; cursor:pointer; line-height:1.3; transition:background-color .15s, border-color .15s, transform .1s; }
+  button.prim { background:var(--acento); color:#fff; border:1px solid var(--acento); }
+  button.prim:hover { background:var(--acento-escuro); border-color:var(--acento-escuro); }
+  button.sec { background:var(--cartao); color:var(--acento); border:1px solid var(--acento-borda); }
+  button.sec:hover { border-color:var(--acento); background:var(--acento-fundo); }
+  button.prim:active, button.sec:active { transform:translateY(1px); }
+  .botoes .prim::after { content:"\2192"; margin-left:8px; }
+  .botoes .sec::before { content:"\2190"; margin-right:8px; }
+
+  /* Ícones nos botões do passo 8 (desenho embutido, sem rede) */
+  #baixar, #copiar, button[onclick] { display:inline-flex; align-items:center; gap:8px; }
+  #baixar::before, #copiar::before, button[onclick]::before { content:""; width:18px; height:18px; flex:none; background:currentColor;
+    -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat; }
+  #baixar { --m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11m-5-5 5 5 5-5M5 20h14'/%3E%3C/svg%3E"); }
+  #copiar { --m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8' y='8' width='12' height='12' rx='2'/%3E%3Cpath d='M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3'/%3E%3C/svg%3E"); }
+  button[onclick] { --m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2'/%3E%3Crect x='7' y='14' width='10' height='6'/%3E%3C/svg%3E"); }
+
+  .dica-pdf { margin:-4px 0 12px; }
+
+  /* Etiquetas de tipo */
+  .tipo { display:inline-block; font-size:12px; font-weight:600; line-height:1.45; padding:0 8px; border-radius:999px; border:1px solid currentColor; white-space:nowrap; vertical-align:1px; background:var(--branco); }
+  .t-azul{color:var(--azul)} .t-vermelho{color:var(--vermelho)} .t-verde{color:var(--verde)} .t-cinza{color:var(--cinza)} .t-roxo{color:var(--roxo)} .t-laranja{color:var(--laranja)}
+
+  /* Ficha da regra */
+  table.ficha { width:100%; border-collapse:collapse; font-size:14px; margin-top:8px; }
+  table.ficha td { border-top:1px solid var(--linha); padding:6px 6px; vertical-align:top; }
+  table.ficha td:first-child { color:var(--suave); width:150px; }
+  .regra { font-size:13.5px; color:var(--suave); margin-top:8px; }
+  .regra b { color:var(--tinta); font-weight:600; }
+  .texto-modelo { font-family:var(--serifa); font-size:16px; line-height:1.55; background:#fbf8f0; border:1px solid var(--linha); border-left:3px solid var(--linha-forte); border-radius:6px; padding:9px 12px; margin:8px 0; white-space:pre-wrap; overflow-wrap:anywhere; }
+
+  /* Cartões da revisão */
+  .problema { border:1px solid; border-left-width:5px; padding:12px 16px 14px; margin:12px 0; border-radius:10px; line-height:1.5; }
+  .problema > b:first-child { display:block; margin-bottom:2px; font-size:15px; }
+  .p-erro  { border-color:#e6bdb6; border-left-color:var(--vermelho); background:var(--vermelho-fundo); }
+  .p-aviso { border-color:#ebd5a8; border-left-color:var(--laranja); background:var(--laranja-fundo); }
+  .p-dica  { border-color:var(--acento-borda); border-left-color:var(--acento); background:var(--acento-fundo); }
+  .p-erro > b:first-child { color:var(--vermelho); } .p-aviso > b:first-child { color:var(--laranja); } .p-dica > b:first-child { color:var(--acento); }
+  .problema small { color:var(--suave); display:block; font-size:12.5px; margin-top:2px; }
+  .problema .texto-modelo { background:var(--branco); }
+  .problema button { margin-top:8px; }
+  .problema .regra { color:var(--tinta); }
+
+  /* Minuta: folha de papel */
+  .minuta { background:var(--branco); border:1px solid var(--linha); border-radius:4px; padding:clamp(20px,6vw,64px) clamp(18px,7vw,72px); font-family:var(--serifa); font-size:17.5px; line-height:1.65; color:#14181f;
+            box-shadow:0 1px 2px rgba(45,38,20,.06), 0 12px 30px -16px rgba(45,38,20,.25); hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; margin:18px 0; }
+  .minuta p { margin:0 0 .85em; }
+  .minuta .epi { text-align:center; font-weight:700; text-transform:uppercase; letter-spacing:.03em; margin-bottom:1.3em; }
+  .minuta .ementa { margin-left:45%; text-align:justify; font-size:16px; font-style:italic; }
+  .minuta .cap { text-align:center; margin:1.6em 0 .6em; white-space:pre-line; font-weight:700; font-size:16px; letter-spacing:.03em; }
+  .minuta .art { margin:.75em 0; text-align:justify; }
+  .minuta .art .sub { margin-left:24px; margin-top:.3em; }
+  .minuta .meta { font-family:var(--sans); font-size:12.5px; line-height:1.45; color:var(--suave); margin-top:5px; text-align:left; hyphens:manual; -webkit-hyphens:manual; }
+  .minuta .marca { outline:2px solid var(--vermelho); outline-offset:5px; border-radius:2px; background:#fdf4f2; }
+
+  /* Casos e exemplos */
+  .caso { cursor:pointer; transition:border-color .15s; }
+  .caso:hover { border-color:var(--linha-forte); }
+  details.mais { margin-top:4px; }
+  details.mais > summary { cursor:pointer; color:var(--acento); font-size:14px; font-weight:600; padding:8px 0; min-height:44px; display:flex; align-items:center; gap:6px; list-style:none; }
+  details.mais > summary::-webkit-details-marker { display:none; }
+  details.mais > summary::before { content:""; width:7px; height:7px; border:solid currentColor; border-width:0 2px 2px 0; transform:rotate(-45deg); margin:0 4px 0 2px; transition:transform .2s; }
+  details.mais[open] > summary::before { transform:rotate(45deg); }
+  .exemplos { margin-top:10px; }
+  .exemplo { border-left:3px solid var(--linha); padding:8px 12px; margin:6px 0; font-size:14px; background:#fbf8f0; border-radius:0 8px 8px 0; }
+  .exemplo > div { margin:2px 0; }
+  .ex-acerto { border-color:var(--verde); } .ex-falha { border-color:var(--vermelho); } .ex-atencao { border-color:var(--laranja); } .ex-guia { border-color:var(--cinza); }
+  .juizo { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+  h3.juizo { font-size:13px; margin-top:24px; }
+  .j-acerto{color:var(--verde)} .j-falha{color:var(--vermelho)} .j-atencao{color:var(--laranja)} .j-guia{color:var(--cinza)}
+  .aviso-fixo { font-size:13px; color:var(--suave); margin-top:12px; }
+  .grade { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:14px; }
+  .grande { padding:18px; display:flex; flex-direction:column; margin:0; }
+  .grande h3 { font-family:var(--serifa); font-size:19px; margin:0 0 4px; }
+  .grande p { color:var(--suave); font-size:15px; margin:0 0 14px; flex:1; }
+  .grande button { align-self:flex-start; }
+
+  footer { max-width:880px; margin:0 auto; text-align:center; color:var(--suave); font-size:13px; padding:18px 20px 32px; border-top:1px solid var(--linha); }
+
+  /* Celular e telas estreitas */
+  @media screen and (max-width:760px) {
+    :root { --trilha-h:56px; }
+    header { padding:10px 14px 6px; }
+    .logo .selo { width:32px; height:32px; }
+    .logo-nome { font-size:21px; }
+    .logo-sub { font-size:10px; }
+    nav.abas { padding:0 6px 0 16px; justify-content:flex-start; }
+    nav.abas button { padding:0 10px; }
+    /* Trilha: oito segmentos numerados de 44px; nome e casa ficam só para leitores de tela / no logotipo. */
+    .trilha-in { padding:4px 8px 6px; gap:0; }
+    .trilha .casa, .trilha-conta { display:none; }
+    .trilha ol { gap:0; overflow-x:auto; scrollbar-width:none; }
+    .trilha ol::-webkit-scrollbar { display:none; }
+    .trilha li { flex:1 0 44px; }
+    .trilha ol button { min-height:46px; justify-content:center; padding:10px 0 2px; }
+    .trilha ol button::before { left:3px; right:3px; }
+    .trilha .pn { width:26px; height:26px; font-size:13px; }
+    .trilha .pnome { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
+    main { padding:16px 16px 48px; }
+    h2 { font-size:24px; }
+    .abertura { grid-template-columns:1fr; padding:4px 0 20px; gap:0; }
+    .ilustra { order:-1; max-width:200px; justify-self:center; margin:0 0 14px; }
+    .chamada { font-size:clamp(36px,11vw,46px); }
+    .subtitulo { font-size:18px; margin-bottom:24px; }
+    button.prim.cta { width:100%; justify-content:center; }
+    .atalhos { flex-direction:column; gap:2px; margin-top:12px; }
+    .licao { font-size:14.5px; padding:10px 13px; }
+    .cartao { padding:12px 13px; }
+    .opcao { padding:9px 6px; gap:9px; }
+    table.ficha td { padding:5px 3px; }
+    table.ficha td:first-child { width:27%; }
+    .texto-modelo { font-size:15px; line-height:1.5; padding:8px 10px; }
+    .problema { padding:11px 13px 13px; }
+    .problema button, .botoes button { width:100%; justify-content:center; }
+    .botoes { flex-direction:column-reverse; gap:8px; }
+    .minuta { font-size:16.5px; line-height:1.6; }
+    .minuta .ementa { margin-left:18%; }
+    .minuta .art, .minuta .ementa { text-align:left; }
+    .minuta .art .sub { margin-left:14px; }
+  }
+
+  @media (prefers-reduced-motion:reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  }
+
+  @page { margin:2cm; }
+  @media print {
+    html, body { background:#fff !important; color:#000; }
+    header, nav, footer, .botoes, .nao-imprime, button { display:none !important; }
+    main { padding:0; margin:0; max-width:none; animation:none !important; }
+    main:has(#doc) > :not(#doc) { display:none !important; }
+    .minuta { border:0; border-radius:0; box-shadow:none; padding:0; margin:0; background:none; color:#000; font-family:var(--serifa); font-size:12pt; line-height:1.5; hyphens:manual; -webkit-hyphens:manual; }
+    .minuta .ementa, .minuta .cap { font-size:12pt; }
+    .minuta .nao-doc { display:none !important; }
+    .minuta .marca { outline:0; background:none; }
+    .minuta .art { break-inside:avoid; page-break-inside:avoid; }
+    .minuta .cap { break-after:avoid; page-break-after:avoid; }
+    .minuta p, .minuta .art { orphans:3; widows:3; }
+    .minuta a { color:#000; text-decoration:none; }
+  }
+
+  /* Trilhas na tela inicial: duas perguntas curtas */
+  .trilhas{margin:4px 0 18px;display:flex;flex-direction:column;gap:12px}
+  .pergunta-trilha{display:flex;flex-direction:column;gap:6px}
+  .pt-rot{font-weight:600;font-size:.95rem}
+  .seg{display:flex;flex-wrap:wrap;gap:8px}
+  .seg button{background:var(--papel,#fffdf8);border:1.5px solid var(--acento-borda);color:var(--acento);border-radius:999px;padding:9px 16px;font:inherit;font-size:.95rem;cursor:pointer;min-height:44px}
+  .seg button.sel{background:var(--acento);border-color:var(--acento);color:#fff}
+  .seg button:focus-visible{outline:3px solid var(--foco,#c2410c);outline-offset:2px}
+  .pt-ajuda{margin:0;min-height:2.6em}
+  .cta[disabled]{opacity:.45;cursor:not-allowed}
+</style>
+</head>
+<body>
+<header>
+  <h1><a class="logo" href="#" data-ir="inicio" aria-label="Minuta, Mary! Ir para o início">
+    <svg class="selo" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect width="40" height="40" rx="11" fill="#2d3468"/><g transform="rotate(28 20 20)"><path d="M20 5c6 7 9 15 7.5 23L20 35l-7.5-7C11 20 14 12 20 5Z" fill="#fffdf8"/><path d="M20 34V22" stroke="#2d3468" stroke-width="1.6"/><circle cx="20" cy="20" r="2.4" fill="#2d3468"/></g><circle cx="32" cy="32" r="4.5" fill="#a63a24" stroke="#fffdf8" stroke-width="1.5"/></svg>
+    <span class="logo-txt"><span class="logo-nome">Minuta, <em>Mary!</em></span></span>
+  </a></h1>
+</header>
+<nav class="passos" id="passos"></nav>
+<main id="tela"></main>
+<footer><div>Este app não usa inteligência artificial. O que você escreve fica só no seu aparelho.</div><div style="margin-top:4px">Realização: <a href="https://iaeduca.online/">IAEduca</a><span id="visitas" hidden></span></div></footer>
+<script src="dados/conteudo.js?v=14"></script>
+<script src="dados/casos.js?v=14"></script>
+<script src="dados/basica.js?v=14"></script>
+<script src="dados/basica_aula.js?v=14"></script>
+<script src="motor.js?v=14"></script>
+<script src="app.js?v=14"></script>
+</body>
+</html>

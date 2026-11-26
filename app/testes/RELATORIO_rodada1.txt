@@ -1,0 +1,16 @@
+Rodada 1 — 26/11/2026
+Bateria: testes/bateria.js, congelada antes da rodada (SHA-256 em HASH.txt: 62798e71...5c29).
+Execução: testes/index.html no navegador (servidor local), motor.js da versão 1.
+
+Resultado: 26 de 27 casos passaram.
+
+Falha: caso 27 ("contrações corretas com a chefia"), verificação naoContem "a a ".
+Diagnóstico: defeito do próprio teste, não do app. A minuta contém, corretamente,
+"pedir à Coordenação do Programa a revisão", e a sequência "a a " aparece dentro de
+"Programa a revisão". Os erros reais que o teste procurava ("A a Coordenação", "à a ", "pela a ")
+não ocorrem; as três formas corretas (contem) foram encontradas.
+A bateria não foi alterada depois de congelada. A correção do teste fica para a bateria da rodada 2,
+que será congelada de novo antes de rodar.
+
+Antes desta rodada, um erro de execução (artigos sem lista de incisos) impediu a primeira tentativa;
+foi corrigido no motor, sem tocar na bateria.

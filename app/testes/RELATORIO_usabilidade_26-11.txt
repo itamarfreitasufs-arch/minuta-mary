@@ -1,0 +1,17 @@
+Teste de usabilidade — 26/11/2026
+1) Percurso próprio no navegador, como usuário leigo, do zero e com o exemplo.
+2) Testador independente (Codex), sem participar do código, leu as telas e apontou onde a pessoa trava:
+   relatorio_testador_independente.md (os 10 mais graves no fim).
+Consertado:
+- Passo 7: cartão com dois caminhos agora tem um botão para cada caminho; "Prefiro corrigir eu mesmo" abre o passo
+  certo, marca o tema em laranja e mostra "Voltar à revisão"; aviso de que a revisão só acha defeitos conhecidos.
+- Passos 1 a 5: instrução do que fazer em cada tela; ajuda nos campos de fundamento e acompanhamento; botão
+  "Marcar as opções recomendadas" e contador de temas; opções com defeito marcadas "para aprender";
+  ficha em linguagem simples (Quem cumpre, Quando, Como age...).
+- Exemplo: pede confirmação antes de apagar o que foi preenchido e avisa qual é o erro de propósito.
+- Troca de instância: tira os temas que a nova instância não pode tratar e avisa quais.
+- Texto próprio: o modelo de conserto diz que substitui o texto inteiro.
+- Nova verificação: artigo que remete a "consequências" sem o capítulo de consequências.
+- Passo 8: alerta com todos os problemas restantes, "E agora?" com o que conferir; "Copiar" só confirma se copiou.
+Bateria congelada após os consertos: 26/27 (a mesma falha do teste 27, defeito do próprio teste).
+Percursos repetidos depois dos consertos: do zero (curso de licenciatura) e com o exemplo, sem travas.
