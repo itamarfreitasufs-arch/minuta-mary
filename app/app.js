@@ -135,6 +135,7 @@
     return `<div class="botoes">${ant ? `<button class="sec" data-ir="${ant}">Voltar</button>` : "<span></span>"}${prox ? `<button class="prim" data-ir="${prox}">${esc(rotProx || "Continuar")}</button>` : ""}</div>`;
   }
 
+  const temDados = () => !!(E.orgao || E.instituicao || Object.keys(E.selecoes || {}).length || (E.livre && E.livre.texto));
   /* ---------- telas ---------- */
   const T = {};
 
@@ -151,7 +152,8 @@
           <p class="ex pt-ajuda">${emBreve(PREF) ? "<b>Em breve.</b> As regras do professor para a sua turma na educação básica ainda estão em teste. Por enquanto, escolha \"Para a instituição\": escola, rede ou secretaria." :
             ({ "basica-inst": "Escola, rede de ensino, secretaria ou conselho de educação.", "superior-inst": "Universidade, pró-reitoria, programa de pós-graduação, curso ou extensão.", "superior-aula": "O professor e as regras da sua disciplina, no plano de ensino.", "basica-aula": "O professor e as regras da sua turma, no plano de ensino." })[PREF.nivel + "-" + PREF.alcance]}</p>
         </div>
-        <button class="prim cta" data-ir="quem" ${emBreve(PREF) ? "disabled" : ""}>Começar ${ICO.seta}</button>
+        <button class="prim cta" data-ir="quem" ${emBreve(PREF) ? "disabled" : ""}>${temDados() ? (E.demoAviso ? "Continuar o exemplo" : "Continuar a minha norma") : "Começar"} ${ICO.seta}</button>
+        ${temDados() && !emBreve(PREF) ? `<div class="recomecar"><button class="sec" id="comecarZero">${E.demoAviso ? "Começar a minha do zero" : "Começar uma nova (apaga a atual)"}</button></div>` : ""}
         <div class="atalhos">
           ${emBreve(PREF) ? "" : `<button class="atalho" id="demo">${ICO.olho}<span>Ver uma demonstração</span></button>`}
           <button class="atalho" data-ir="casos">${ICO.livro}<span>Aprender com ${CASOS.length} casos reais${TRILHA === "superior" ? "" : " do ensino superior"}</span></button>
@@ -387,7 +389,7 @@
     </div>`;
     return `<h2>8. A minuta</h2>
     <div class="nao-imprime" style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0">
-      <button class="prim" id="baixar">Baixar em Word</button>
+      <button class="prim" id="baixar" title="Arquivo .docx: abre no Word e no Google Docs">Baixar o arquivo (.docx)</button>
       <button class="sec" id="copiar">Copiar o texto</button>
       <button class="sec" onclick="window.print()">Imprimir ou salvar em PDF</button>
       <label class="opcao"><input type="checkbox" id="verTipos" ${E.verTipos ? "checked" : ""}> mostrar tipo e origem de cada artigo</label>
@@ -397,8 +399,8 @@
     ${problemas.filter(p => p.nivel === "erro").length ? `<div class="problema p-erro nao-imprime">A revisão ainda aponta ${problemas.filter(p => p.nivel === "erro").length} problema(s)${marcados.size ? ", com " + marcados.size + " artigo(s) marcado(s) em vermelho abaixo" : ""}. <button class="sec" data-ir="rev">Ver e consertar no passo 7</button></div>` : ""}
     ${quadroPublicos(m)}
     ${corpo}
-    <div class="licao nao-imprime"><b>E agora?</b> 0) Preencha no Word o número e a data na primeira linha e troque qualquer dado de exemplo. 1) Clique em "Baixar em Word" (leva tudo; "Copiar" leva só o texto da minuta). 2) Leve o arquivo à reunião da sua instância: ele traz a minuta, a ficha de tipificação, a conformidade com a Resolução e a nota justificativa. 3) Para mudar algo, volte a qualquer passo pela barra lá em cima; o que você preencheu fica guardado neste computador.</div>
-    <p class="aviso-fixo">Minuta de apoio, sem valor jurídico. O arquivo em Word traz também a ficha de tipificação, a ficha de conformidade com a Resolução e a nota justificativa.</p>
+    <div class="licao nao-imprime"><b>E agora?</b> 0) Clique em "Baixar o arquivo (.docx)": ele abre no Word e no Google Docs e leva tudo ("Copiar" leva só o texto da minuta). 1) No arquivo, preencha o número e a data na primeira linha e troque qualquer dado de exemplo. 2) Leve o arquivo à reunião da sua instância: ele traz a minuta, a ficha de tipificação, a conformidade com a Resolução e a nota justificativa. 3) Para mudar algo, volte a qualquer passo pela barra lá em cima; o que você preencheu fica guardado neste computador.</div>
+    <p class="aviso-fixo">Minuta de apoio, sem valor jurídico. O arquivo .docx (Word ou Google Docs) traz também a ficha de tipificação, a ficha de conformidade com a Resolução e a nota justificativa.</p>
     ${botoes("rev", null)}`;
   };
 
@@ -465,41 +467,47 @@
   /* ---------- exportação para Word ---------- */
   function exportar() {
     conta("word");
-    const blob = new Blob(["﻿", gerarDoc()], { type: "application/msword" });
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "minuta-mary.doc"; a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    const bytes = window.Docx.gerar(blocosDoc());
+    const blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "minuta-mary.docx";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
   }
-  window.__gerarDoc = () => gerarDoc();
-  function gerarDoc() {
+  window.__blocosDoc = () => blocosDoc();
+  /* Conteúdo do arquivo Word: a minuta, a ficha de tipificação, o quadro dos públicos, a conformidade e a nota justificativa. */
+  function blocosDoc() {
     const { minuta: m, problemas } = M.revisar(E);
-    const bl = M.blocos(m);
-    const p = s => `<p style="text-align:justify">${esc(s)}</p>`;
-    let h = `<p style="text-align:center">${esc(m.epigrafe)}</p>`;
-    if (m.ementa) h += `<p style="margin-left:9cm;text-align:justify">${esc(m.ementa)}</p>`;
-    if (m.preambulo) h += p(m.preambulo);
-    for (const b of bl) {
-      h += `<p style="text-align:center"><b>${esc(b.rotulo).replace(/\n/g, "<br>")}</b></p>`;
+    const B = [], p = (t, o) => B.push(Object.assign({ p: t }, o || {}));
+    const nomeTipo = t => (D.tipos[t] || {}).nome || t;
+    p(m.epigrafe, { centro: true, negrito: true });
+    if (m.ementa) p(m.ementa, { recuoCm: 8 });
+    if (m.preambulo) p(m.preambulo);
+    for (const b of M.blocos(m)) {
+      p(b.rotulo, { centro: true, negrito: true, titulo: true });
       for (const a of b.artigos) {
-        h += p(a.rotulo + " " + a.caput);
-        a.incisos.forEach((t, i) => h += p(M.romano(i + 1) + " – " + t));
-        a.paragrafos.forEach((t, i) => h += p(M.rotuloPar(i + 1, a.paragrafos.length) + " " + t));
+        p(a.rotulo + " " + a.caput);
+        a.incisos.forEach((t, i) => p(M.romano(i + 1) + " – " + t));
+        a.paragrafos.forEach((t, i) => p(M.rotuloPar(i + 1, a.paragrafos.length) + " " + t));
       }
     }
-    h += `<p><br>${esc(E.signatario || "[Nome e cargo da autoridade signatária]")}</p>`;
-    h += `<br style="page-break-before:always"><h2>Ficha de tipificação</h2><table border="1" cellpadding="4" style="border-collapse:collapse;font-size:10pt">
-      <tr><th>Artigo</th><th>Tipo</th><th>Conteúdo</th><th>Condição</th><th>Destinatário</th><th>Ocasião</th><th>Meio</th><th>De onde veio</th></tr>` +
-      m.artigos.map(a => `<tr><td>${esc(a.rotulo)}</td><td>${esc((D.tipos[a.tipo] || {}).nome || a.tipo)}</td><td>${esc(a.ficha.conteudo)}</td><td>${esc(a.ficha.condicao)}</td><td>${esc(a.ficha.destinatario)}</td><td>${esc(a.ficha.ocasiao)}</td><td>${esc(a.ficha.meio)}</td><td>${esc(a.origem)}${(a.casos || []).length ? "; casos " + a.casos.join(", ") : ""}</td></tr>`).join("") + `</table>`;
+    p("");
+    p(E.signatario || "[Nome e cargo da autoridade signatária]", { centro: true });
+    p("Ficha de tipificação", { negrito: true, tam: 14, quebraAntes: true, titulo: true });
+    B.push({ cabecalho: true, tam: 8, tabela: [["Artigo", "Tipo", "Conteúdo", "Condição", "Destinatário", "Ocasião", "Meio", "De onde veio"]].concat(
+      m.artigos.map(a => [a.rotulo, nomeTipo(a.tipo), a.ficha.conteudo, a.ficha.condicao, a.ficha.destinatario, a.ficha.ocasiao, a.ficha.meio,
+        a.origem + ((a.casos || []).length ? "; casos " + a.casos.join(", ") : "")])) });
     const rp = M.publicosDaMinuta(m);
-    h += `<h2>O que esta norma pede de cada um</h2><table border="1" cellpadding="4" style="border-collapse:collapse;font-size:10pt">` +
-      D.publicos.map(p => `<tr><td><b>${esc(p.nome)}</b></td><td>${rp[p.id].length ? rp[p.id].map(a => esc(a.rotulo) + " (" + esc((D.tipos[a.tipo] || {}).nome || a.tipo) + ")").join("; ") : "nenhum artigo"}</td></tr>`).join("") + `</table>`;
-    h += `<h2>Ficha de conformidade com a Resolução CNE/CP nº 1/2026</h2>` +
-      (problemas.length ? `<ul>${problemas.map(x => `<li><b>${esc(x.nivel)}</b>${x.art ? " (" + esc(x.art) + ")" : ""}: ${esc(x.msg)} — ${esc(x.fonte)}</li>`).join("")}</ul>` : "<p>Nenhum problema encontrado pela revisão automática.</p>");
+    p("O que esta norma pede de cada um", { negrito: true, tam: 14, titulo: true });
+    B.push({ tam: 10, tabela: D.publicos.map(pb => [pb.nome, rp[pb.id].length ? rp[pb.id].map(a => a.rotulo + " (" + nomeTipo(a.tipo) + ")").join("; ") : "nenhum artigo"]) });
+    p("Ficha de conformidade com a Resolução CNE/CP nº 1/2026", { negrito: true, tam: 14, titulo: true });
+    if (problemas.length) problemas.forEach(x => p("• " + x.nivel + (x.art ? " (" + x.art + ")" : "") + ": " + x.msg + " — " + x.fonte));
+    else p("Nenhum problema encontrado pela revisão automática.");
+    p("Nota justificativa", { negrito: true, tam: 14, titulo: true });
     const dg = D.diagnostico.filter(q => (E.diagnostico[q.id] || "").trim());
-    h += `<h2>Nota justificativa</h2>` + (dg.length ? dg.map(q => `<p><b>${esc(q.p)}</b><br>${esc(E.diagnostico[q.id])}</p>`).join("") : "<p>[Diagnóstico não preenchido.]</p>");
-    h += `<p style="font-size:9pt;color:#666">Gerado pelo Minuta, Mary! (IAEduca). Minuta de apoio, sem valor jurídico.</p>`;
-    const doc = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Minuta</title>
-      <style>body{font-family:"Times New Roman";font-size:12pt}</style></head><body>${h}</body></html>`;
-    return doc;
+    if (dg.length) dg.forEach(q => { p(q.p, { negrito: true }); p(E.diagnostico[q.id]); });
+    else p("[Diagnóstico não preenchido.]");
+    p("Gerado pelo Minuta, Mary! (IAEduca). Minuta de apoio, sem valor jurídico.", { tam: 9, cinza: true });
+    return B;
   }
 
   /* ---------- demonstração ---------- */
@@ -507,7 +515,7 @@
     if (TX("demo", null)) {
       E = Object.assign(novo(), { modo: "regular", revisaoAnos: 2, vigenciaDias: 0 }, JSON.parse(JSON.stringify(TX("demo"))), { demoAviso: true, tela: "quem",
         diagnostico: Object.fromEntries(D.diagnostico.map(q => [q.id, q.ex])) });
-      salvar(); render(); return;
+      salvar(); render(); window.scrollTo(0, 0); return;
     }
     E = Object.assign(novo(), { demoAviso: true,
       tela: "quem", instancia: "ppg", esfera: "federal",
@@ -526,7 +534,7 @@
         signatario: "Fulana de Tal — Professora responsável pela disciplina" });
       D.dispositivos.forEach(d => { if (E.selecoes[d.id] >= 0 && !M.aplicavel(d, E)) delete E.selecoes[d.id]; });
     }
-    salvar(); render();
+    salvar(); render(); window.scrollTo(0, 0);
   }
 
   /* ---------- eventos ---------- */
@@ -537,7 +545,8 @@
       ? `<div class="cartao" style="position:sticky;top:var(--trilha-h,0px);z-index:5;border-color:var(--acento);display:flex;justify-content:space-between;align-items:center;gap:10px">
            <span>Você veio da revisão. Corrija o ponto marcado em laranja e depois volte.</span><button class="prim" data-ir="rev">Voltar à revisão</button></div>` : "";
     const avisoDemo = E.demoAviso && ["quem", "diag", "modo", "piso", "disp", "final"].includes(E.tela) && !E.veioDaRev
-      ? `<div class="cartao" style="border-color:var(--laranja)"><b>Você está no exemplo.</b> Ele tem um erro de propósito: no passo 5, o tema "${esc(TX("demoTema", "Detectores de texto gerado por IA"))}" está com a opção "Nota zero se o detector acusar". Avance até o passo 7 e veja a revisão apontar e consertar. Para começar a sua norma do zero, use "Apagar o que eu já preenchi" na tela inicial.</div>` : "";
+      ? `<div class="cartao aviso-exemplo" style="border-color:var(--laranja)"><b>Você está no exemplo.</b> Ele tem um erro de propósito: no passo 5, o tema "${esc(TX("demoTema", "Detectores de texto gerado por IA"))}" está com a opção "Nota zero se o detector acusar". Avance até o passo 7 e veja a revisão apontar e consertar.
+          <div class="botoes-exemplo"><button class="sec" id="comecarZero">Começar a minha do zero</button></div></div>` : "";
     const tela = $("#tela");
     tela.innerHTML = barra + avisoDemo + f();
     /* Transição curta só quando a tela muda (não a cada clique numa opção). */
@@ -547,9 +556,12 @@
     if (lista && lista.scrollWidth > lista.clientWidth) lista.scrollLeft = atual.offsetLeft - (lista.clientWidth - atual.offsetWidth) / 2;
   }
   document.addEventListener("click", ev => {
-    const t = ev.target.closest("[data-ir],[data-caso],[data-conserto],[data-nivel],[data-alcance],#instalar,#instalarAgora,#instalarDepois,#recomendadas,#demo,#zerar,#baixar,#copiar,#exLivre,#exLivreRuim,#limpaLivre");
+    const t = ev.target.closest("[data-ir],[data-caso],[data-conserto],[data-nivel],[data-alcance],#instalar,#instalarAgora,#instalarDepois,#comecarZero,#recomendadas,#demo,#zerar,#baixar,#copiar,#exLivre,#exLivreRuim,#limpaLivre");
     if (!t) return;
     if (t.id === "instalarAgora" && pedidoInstalar) { const p = pedidoInstalar; pedidoInstalar = null; p.prompt(); p.userChoice.finally(() => render()); return; }
+    if (t.id === "comecarZero") {
+      if (E.demoAviso || confirm("Apagar a norma que está preenchida e começar uma nova?")) { E = novo(); E.tela = "quem"; salvar(); render(); window.scrollTo(0, 0); conta("comeco"); }
+      return; }
     if (t.id === "instalarDepois") { try { localStorage.setItem(ADIA, String(Date.now())); } catch (e) {} forcarInstalar = false; render(); return; }
     if (t.id === "instalar") { ev.preventDefault(); try { localStorage.removeItem(ADIA); } catch (e) {} forcarInstalar = true; ir("inicio");
       const cx = document.getElementById("caixa-instalar"); if (cx) cx.scrollIntoView({ block: "center" });
@@ -588,7 +600,7 @@
       if (!temDados || confirm("O exemplo substitui o que você já preencheu. Continuar?")) demo(); }
     if (t.id === "recomendadas") { D.dispositivos.filter(d => M.aplicavel(d, E)).forEach(d => { if (E.selecoes[d.id] === undefined) { const i = d.variantes.findIndex(v => !v.risco); if (i >= 0) E.selecoes[d.id] = i; } }); salvar(); render(); return; }
     if (t.id === "zerar") { ev.preventDefault(); if (confirm("Apagar tudo o que foi preenchido?")) { E = novo(); salvar(); render(); } }
-    if (t.id === "baixar") { exportar(); t.textContent = "Baixado: minuta-mary.doc (veja os downloads do navegador)"; }
+    if (t.id === "baixar") { exportar(); t.textContent = "Baixado: minuta-mary.docx (veja os downloads do navegador)"; }
     if (t.id === "copiar") { const { minuta } = M.revisar(E); const txt = M.textoMinuta(minuta, E);
       const falhou = () => { t.textContent = "Não consegui copiar: selecione o texto da minuta e use Ctrl+C"; };
       if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => { t.textContent = "Copiado (só o texto da minuta)"; }, falhou); else falhou(); }

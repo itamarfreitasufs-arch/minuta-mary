@@ -83,6 +83,13 @@ Primeira versão: educação superior, em sete instâncias (conselho superior, r
 
 ---
 
+## 1D. Correções de uso (versão publicada 16)
+
+- Arquivo para levar à reunião: `.docx` de verdade, gerado no próprio aparelho por `docx.js` (Office Open XML, sem bibliotecas), que abre no Word e no Google Docs. Conferido no Word nas quatro trilhas. O antigo `.doc` era HTML com outra extensão, e alguns navegadores o acusavam de corrompido.
+- Sair do exemplo: botão "Começar a minha do zero" no aviso do exemplo; na tela inicial, "Continuar" e "Começar uma nova (apaga a atual)", que pergunta antes de apagar a norma da pessoa; a demonstração abre no topo; o ícone de início aparece no celular. Problemas achados ao refazer o percurso de quem chega pela primeira vez.
+
+---
+
 ## 2. Base normativa e técnica legislativa
 
 ### 2.1 Resolução CNE/CP nº 1/2026 (espinha)
@@ -212,7 +219,7 @@ Arquitetura: `index.html` (estrutura e estilo), `app.js` (telas), `motor.js` (re
 
 ## 10. Histórico (26/11/2026)
 
-Varredura e auditoria de apps → acervo multilateral → proposta de desenho → escola de legisladores e técnica legislativa → v1 construída e testada → exemplos explicados, amostras nos campos, revisão com conserto → teste de leigo e testador independente → cobertura contra 300 dúvidas, públicos e conflitos → publicação → identidade visual (marca, paleta, trilha de passos) → impressão e PDF → ajustes a partir de fotos do celular do autor → teste final e correção do preâmbulo → contador anônimo de visitas → nota de método com o lugar, o tempo, a justificativa e os três textos do autor → ajustes de conteúdo a partir dos ensaios (versão publicada 13) → quatro trilhas, com a escola e o professor da educação básica (versão publicada 14) → instalável no celular, sem loja (versão publicada 15).
+Varredura e auditoria de apps → acervo multilateral → proposta de desenho → escola de legisladores e técnica legislativa → v1 construída e testada → exemplos explicados, amostras nos campos, revisão com conserto → teste de leigo e testador independente → cobertura contra 300 dúvidas, públicos e conflitos → publicação → identidade visual (marca, paleta, trilha de passos) → impressão e PDF → ajustes a partir de fotos do celular do autor → teste final e correção do preâmbulo → contador anônimo de visitas → nota de método com o lugar, o tempo, a justificativa e os três textos do autor → ajustes de conteúdo a partir dos ensaios (versão publicada 13) → quatro trilhas, com a escola e o professor da educação básica (versão publicada 14) → instalável no celular, sem loja (versão publicada 15) → arquivo .docx e saída clara do exemplo (versão publicada 16).
 
 Ajustes da versão publicada 13, tirados dos ensaios do autor:
 - Declaração de uso: "relevante" inclui o uso que alterou o conjunto de fontes, como a sugestão de termos de busca numa revisão bibliográfica (ensaio B, ambiguidade).

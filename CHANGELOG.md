@@ -1,5 +1,10 @@
 # Histórico de alterações
 
+## 1.3 — 27 de novembro de 2026 — experimental
+
+- "Baixar o arquivo (.docx)": arquivo Word de verdade (`app/docx.js`, sem bibliotecas), que abre no Word e no Google Docs. Substitui o antigo .doc (HTML), que alguns navegadores acusavam de corrompido.
+- Sair do exemplo: o aviso do exemplo tem o botão "Começar a minha do zero"; a tela inicial mostra "Continuar" e "Começar uma nova (apaga a atual)"; a demonstração abre no topo; o ícone de início aparece no celular.
+
 ## 1.2 — 26 de novembro de 2026 — experimental
 
 - Instalável no celular, sem loja: manifesto, ícone da pena, abertura como app e funcionamento sem internet (com internet, sempre a versão mais nova).

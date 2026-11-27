@@ -222,10 +222,11 @@
     nav.abas button { padding:0 10px; }
     /* Trilha: oito segmentos numerados de 44px; nome e casa ficam só para leitores de tela / no logotipo. */
     .trilha-in { padding:4px 8px 6px; gap:0; }
-    .trilha .casa, .trilha-conta { display:none; }
+    .trilha-conta { display:none; }
+    .trilha .casa { width:40px; height:46px; }
     .trilha ol { gap:0; overflow-x:auto; scrollbar-width:none; }
     .trilha ol::-webkit-scrollbar { display:none; }
-    .trilha li { flex:1 0 44px; }
+    .trilha li { flex:1 0 38px; }
     .trilha ol button { min-height:46px; justify-content:center; padding:10px 0 2px; }
     .trilha ol button::before { left:3px; right:3px; }
     .trilha .pn { width:26px; height:26px; font-size:13px; }
@@ -291,6 +292,11 @@
   .instalar ol{margin:6px 0 4px;padding-left:20px;font-size:.93rem}
   .instalar .acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
   .instalar .acoes button{min-height:44px}
+  .recomecar { margin-top:10px; display:flex; justify-content:flex-start; }
+  @media screen and (max-width:760px) { .recomecar { justify-content:center; } }
+  .recomecar button { min-height:44px; }
+  .aviso-exemplo .botoes-exemplo { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  .aviso-exemplo .botoes-exemplo button { min-height:44px; }
 </style>
 </head>
 <body>
@@ -303,11 +309,12 @@
 <nav class="passos" id="passos"></nav>
 <main id="tela"></main>
 <footer><div>Este app não usa inteligência artificial. O que você escreve fica só no seu aparelho.</div><div style="margin-top:4px">Realização: <a href="https://iaeduca.online/">IAEduca</a><span id="visitas" hidden></span> · <a href="#" id="instalar">Instalar no celular</a></div></footer>
-<script src="dados/conteudo.js?v=15"></script>
-<script src="dados/casos.js?v=15"></script>
-<script src="dados/basica.js?v=15"></script>
-<script src="dados/basica_aula.js?v=15"></script>
-<script src="motor.js?v=15"></script>
-<script src="app.js?v=15"></script>
+<script src="dados/conteudo.js?v=16"></script>
+<script src="dados/casos.js?v=16"></script>
+<script src="dados/basica.js?v=16"></script>
+<script src="dados/basica_aula.js?v=16"></script>
+<script src="motor.js?v=16"></script>
+<script src="docx.js?v=16"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>

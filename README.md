@@ -1,6 +1,6 @@
 # Minuta, Mary! — Writing AI policies | Escola de legisladores
 
-> **Versão em teste (1.2, 26 de novembro de 2026).** Novas versões podem sair a qualquer momento. Avise se algo não servir à sua instituição.
+> **Versão em teste (1.3, 27 de novembro de 2026).** Novas versões podem sair a qualquer momento. Avise se algo não servir à sua instituição.
 
 Protocolo de **Itamar Freitas** (Universidade Federal de Sergipe), preparado com assistência de IA.
 
@@ -31,6 +31,6 @@ Baterias congeladas (o hash de cada uma está em `app/testes/HASH*.txt`):
 
 ## Limites
 
-Versão em teste. As trilhas da educação básica são as mais novas. A revisão automática detecta defeitos conhecidos e não garante correção jurídica ou integral do texto. Word usa HTML em `.doc`. Firefox, Safari do iPhone e celular físico em rede lenta não foram testados. O acervo completo não integra o pacote.
+Versão em teste. As trilhas da educação básica são as mais novas. A revisão automática detecta defeitos conhecidos e não garante correção jurídica ou integral do texto. O arquivo baixado é um `.docx` (abre no Word e no Google Docs). Firefox, Safari do iPhone e celular físico em rede lenta não foram testados. O acervo completo não integra o pacote.
 
 Confira a integridade com `python verificar_integridade.py`.
