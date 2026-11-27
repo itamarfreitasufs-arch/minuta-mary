@@ -25,4 +25,10 @@ $n = fn($x) => number_format($x, 0, ',', '.');
 <h2>Por dia</h2>
 <table><tr><th>Dia</th><?php foreach ($nomes as $r) echo '<th>' . $r . '</th>'; ?></tr>
 <?php foreach ($dias as $dia => $c) { echo '<tr><td>' . htmlspecialchars($dia) . '</td>'; foreach ($nomes as $k => $_) echo '<td>' . $n((int) ($c[$k] ?? 0)) . '</td>'; echo '</tr>'; } ?>
-</table></body></html>
+</table>
+<?php $inst = ['inst_android' => 'Instalaram pelo botão (Android)', 'app_android' => 'Abriram como app pela 1ª vez (Android)', 'app_iphone' => 'Abriram como app pela 1ª vez (iPhone)'];
+$ti = array_fill_keys(array_keys($inst), 0); foreach ($dias as $c) foreach ($inst as $k => $_) $ti[$k] += (int) ($c[$k] ?? 0); ?>
+<h2>Instalações no celular (aproximado)</h2>
+<p>O iPhone não avisa quando alguém instala: lá se conta a primeira vez que o app é aberto pelo ícone, uma vez por aparelho. No Android contam-se as duas coisas, e a primeira abertura serve de conferência. Quem apaga os dados do navegador pode ser contado de novo; quem instala e nunca abre não é contado no iPhone.</p>
+<table><tr><?php foreach ($inst as $r) echo '<th>' . $r . '</th>'; ?></tr><tr><?php foreach ($inst as $k => $_) echo '<td>' . $n($ti[$k]) . '</td>'; ?></tr></table>
+</body></html>

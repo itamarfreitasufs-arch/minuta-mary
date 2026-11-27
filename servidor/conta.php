@@ -1,6 +1,7 @@
 <?php
 // Minuta, Mary! Contador de usos.
-// Grava só: dia e tipo de evento (visita, começo, minuta pronta, Word baixado).
+// Grava só: dia e tipo de evento (visita, começo, minuta pronta, Word baixado e, desde a v15,
+// instalação no celular: botão Instalar no Android e primeira abertura como app, uma vez por aparelho).
 // Não grava IP, navegador, hora, cookie nem nada do que a pessoa escreve.
 // Os totais ficam em contagem/AAAA-MM.json.
 header('Cache-Control: no-store');
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   exit;
 }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); exit; }
-$eventos = ['visita', 'comeco', 'minuta', 'word'];
+$eventos = ['visita', 'comeco', 'minuta', 'word', 'inst_android', 'app_android', 'app_iphone'];
 $e = $_POST['e'] ?? '';
 if (!in_array($e, $eventos, true)) { http_response_code(400); exit; }
 date_default_timezone_set('America/Sao_Paulo');

@@ -52,6 +52,39 @@
       navigator.sendBeacon && navigator.sendBeacon("conta.php", d);
     } catch (x) {}
   }
+  /* ---------- instalar no celular (sem loja) ---------- */
+  const UA = /[?&]simular=iphone(&|$)/.test(location.search) ? "iPhone" : (navigator.userAgent || ""); /* ?simular=iphone: só para testar a caixa */
+  const ehIOS = /iPhone|iPad|iPod/i.test(UA) || (/Macintosh/.test(UA) && navigator.maxTouchPoints > 1);
+  const ehAndroid = /Android/i.test(UA);
+  const ehCelular = ehIOS || ehAndroid;
+  const instalado = () => (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  const ADIA = "minuta-mary-instalar-adiado", TRINTA_DIAS = 30 * 24 * 3600 * 1000;
+  const adiado = () => { try { return Date.now() - Number(localStorage.getItem(ADIA) || 0) < TRINTA_DIAS; } catch (e) { return false; } };
+  let pedidoInstalar = null, forcarInstalar = false;
+  window.addEventListener("beforeinstallprompt", ev => { ev.preventDefault(); pedidoInstalar = ev; if (E && E.tela === "inicio") render(); });
+  window.addEventListener("appinstalled", () => { pedidoInstalar = null; forcarInstalar = false; if (ehAndroid) conta("inst_android"); render(); });
+  /* Primeira abertura como app (pelo ícone), uma vez por aparelho: é o único sinal de instalação no iPhone. */
+  function contaPrimeiraAbertura() {
+    try {
+      if (!instalado() || !ehCelular || localStorage.getItem("minuta-mary-abriu-app")) return;
+      localStorage.setItem("minuta-mary-abriu-app", "1"); conta(ehIOS ? "app_iphone" : "app_android");
+    } catch (e) {}
+  }
+  function caixaInstalar() {
+    if (instalado() || !(forcarInstalar || (ehCelular && !adiado()))) return "";
+    const passos = ehIOS || !ehAndroid && !pedidoInstalar
+      ? `<ol><li>Toque em <b>Compartilhar</b> (o quadrado com a seta para cima).</li><li>Escolha <b>Adicionar à Tela de Início</b>.</li></ol>${ehCelular ? "" : `<p>No Android, abra este endereço no Chrome e toque em <b>Instalar</b>.</p>`}`
+      : pedidoInstalar ? `<p>Fica na tela inicial como um app e abre mesmo sem internet.</p>`
+      : `<p>No menu do navegador (⋮), toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</p>`;
+    return `<div class="instalar" id="caixa-instalar" role="region" aria-label="Baixe o Mary no celular">
+      <img src="icones/icone-192.png" alt="">
+      <div><span class="tit">Baixe o Mary no celular</span>
+        ${ehCelular || pedidoInstalar ? "" : `<p>No celular, abra <b>iaeduca.online/mary</b> e:</p>`}${passos}
+        <p>Sem loja e sem cadastro. O que você escreve continua só no aparelho.</p>
+        <div class="acoes">${pedidoInstalar ? `<button class="prim" id="instalarAgora">Instalar</button>` : ""}<button class="sec" id="instalarDepois">Agora não</button></div></div></div>`;
+  }
+  if ("serviceWorker" in navigator && location.protocol !== "file:") window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+
   function ir(t) { E.tela = t; salvar(); render(); window.scrollTo(0, 0); if (t === "quem") conta("comeco"); if (t === "minuta") conta("minuta"); }
   window.__ir = ir;
 
@@ -105,7 +138,7 @@
   /* ---------- telas ---------- */
   const T = {};
 
-  T.inicio = () => `
+  T.inicio = () => `${caixaInstalar()}
     <section class="abertura">
       <div class="abertura-txt">
         <h2 class="chamada"><span class="selo-grande">${SELO}</span>Minuta, <em>Mary!</em></h2>
@@ -514,8 +547,14 @@
     if (lista && lista.scrollWidth > lista.clientWidth) lista.scrollLeft = atual.offsetLeft - (lista.clientWidth - atual.offsetWidth) / 2;
   }
   document.addEventListener("click", ev => {
-    const t = ev.target.closest("[data-ir],[data-caso],[data-conserto],[data-nivel],[data-alcance],#recomendadas,#demo,#zerar,#baixar,#copiar,#exLivre,#exLivreRuim,#limpaLivre");
+    const t = ev.target.closest("[data-ir],[data-caso],[data-conserto],[data-nivel],[data-alcance],#instalar,#instalarAgora,#instalarDepois,#recomendadas,#demo,#zerar,#baixar,#copiar,#exLivre,#exLivreRuim,#limpaLivre");
     if (!t) return;
+    if (t.id === "instalarAgora" && pedidoInstalar) { const p = pedidoInstalar; pedidoInstalar = null; p.prompt(); p.userChoice.finally(() => render()); return; }
+    if (t.id === "instalarDepois") { try { localStorage.setItem(ADIA, String(Date.now())); } catch (e) {} forcarInstalar = false; render(); return; }
+    if (t.id === "instalar") { ev.preventDefault(); try { localStorage.removeItem(ADIA); } catch (e) {} forcarInstalar = true; ir("inicio");
+      const cx = document.getElementById("caixa-instalar"); if (cx) cx.scrollIntoView({ block: "center" });
+      else { const m = document.createElement("div"); m.className = "cartao"; m.textContent = "O Mary já está instalado neste aparelho."; document.querySelector("main").prepend(m); }
+      return; }
     if (t.dataset.nivel) { escolherTrilha("nivel", t.dataset.nivel); return; }
     if (t.dataset.alcance) { escolherTrilha("alcance", t.dataset.alcance); return; }
     if (t.dataset.conserto !== undefined) {
@@ -578,6 +617,7 @@
   });
   render();
   conta("visita");
+  contaPrimeiraAbertura();
   if (location.protocol !== "file:") fetch("conta.php", { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
     const n = parseInt(t, 10), alvo = document.getElementById("visitas");
     if (!alvo || !(n > 0)) return;

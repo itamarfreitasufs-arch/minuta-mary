@@ -1,5 +1,10 @@
 # Histórico de alterações
 
+## 1.2 — 26 de novembro de 2026 — experimental
+
+- Instalável no celular, sem loja: manifesto, ícone da pena, abertura como app e funcionamento sem internet (com internet, sempre a versão mais nova).
+- Caixa "Baixe o Mary no celular" (Instalar no Android; dois passos no iPhone; "Agora não" por 30 dias) e link "Instalar no celular" no rodapé.
+
 ## 1.1 — 26 de novembro de 2026 — experimental
 
 - Quatro trilhas na primeira tela: nível (educação básica ou superior) e alcance (instituição ou sala de aula).

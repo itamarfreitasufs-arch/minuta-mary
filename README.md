@@ -1,12 +1,12 @@
 # Minuta, Mary! — Writing AI policies | Escola de legisladores
 
-> **Versão em teste (1.1, 26 de novembro de 2026).** Novas versões podem sair a qualquer momento. Avise se algo não servir à sua instituição.
+> **Versão em teste (1.2, 26 de novembro de 2026).** Novas versões podem sair a qualquer momento. Avise se algo não servir à sua instituição.
 
 Protocolo de **Itamar Freitas** (Universidade Federal de Sergipe), preparado com assistência de IA.
 
 Uma escola de legisladores para escrever normas sobre uso de IA na educação, com base na Resolução CNE/CP nº 1/2026. Quatro trilhas: educação básica ou superior, para a instituição ou para a sala de aula. O app funciona sem IA, com regras locais: nada do que você escreve sai do aparelho. A minuta é apoio educacional, sem valor jurídico, para revisão pela instância competente.
 
-[App publicado](https://iaeduca.online/mary/).
+[App publicado](https://iaeduca.online/mary/). Pode ser instalado no celular, sem loja: abra o endereço e use "Instalar no celular", no rodapé.
 
 ## Como usar e testar
 

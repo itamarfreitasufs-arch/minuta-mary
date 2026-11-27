@@ -72,6 +72,17 @@ Primeira versão: educação superior, em sete instâncias (conselho superior, r
 
 ---
 
+## 1C. No celular, sem loja (versão publicada 15)
+
+- O app pode ser instalado na tela inicial do celular, como o "Pode isso, Jane?": manifesto (`manifest.webmanifest`), ícone da pena (`icones/`), abertura como app e funcionamento sem internet (`sw.js`).
+- Regra do funcionamento sem internet: com internet, abre sempre a versão publicada mais recente (rede primeiro); sem internet, a última cópia guardada no aparelho. O contador (`conta.php`) nunca passa pelo cache. O que a pessoa escreve continua só no armazenamento local do aparelho.
+- Na tela inicial, a caixa "Baixe o Mary no celular" mostra o botão Instalar no Android e os dois passos no iPhone (Compartilhar, "Adicionar à Tela de Início"). "Agora não" esconde a caixa por 30 dias. No computador, a caixa só aparece pelo link "Instalar no celular" do rodapé.
+- A cada versão nova, além de subir o `?v=N` no `index.html`, é preciso subir o nome do cache e a lista de arquivos em `sw.js`.
+- Contador de instalações (aproximado, sem cookies nem dado pessoal): no Android conta o botão Instalar (`inst_android`); no iPhone, que não avisa, conta a primeira abertura como app pelo ícone, uma vez por aparelho (`app_iphone`), com uma marca guardada só no aparelho; a mesma regra vale no Android como conferência (`app_android`). O painel mostra a tabela "Instalações no celular (aproximado)".
+- Testes: Android e iPhone simulados, funcionamento sem internet com o servidor desligado, as três baterias sem mudança.
+
+---
+
 ## 2. Base normativa e técnica legislativa
 
 ### 2.1 Resolução CNE/CP nº 1/2026 (espinha)
@@ -201,7 +212,7 @@ Arquitetura: `index.html` (estrutura e estilo), `app.js` (telas), `motor.js` (re
 
 ## 10. Histórico (26/11/2026)
 
-Varredura e auditoria de apps → acervo multilateral → proposta de desenho → escola de legisladores e técnica legislativa → v1 construída e testada → exemplos explicados, amostras nos campos, revisão com conserto → teste de leigo e testador independente → cobertura contra 300 dúvidas, públicos e conflitos → publicação → identidade visual (marca, paleta, trilha de passos) → impressão e PDF → ajustes a partir de fotos do celular do autor → teste final e correção do preâmbulo → contador anônimo de visitas → nota de método com o lugar, o tempo, a justificativa e os três textos do autor → ajustes de conteúdo a partir dos ensaios (versão publicada 13) → quatro trilhas, com a escola e o professor da educação básica (versão publicada 14).
+Varredura e auditoria de apps → acervo multilateral → proposta de desenho → escola de legisladores e técnica legislativa → v1 construída e testada → exemplos explicados, amostras nos campos, revisão com conserto → teste de leigo e testador independente → cobertura contra 300 dúvidas, públicos e conflitos → publicação → identidade visual (marca, paleta, trilha de passos) → impressão e PDF → ajustes a partir de fotos do celular do autor → teste final e correção do preâmbulo → contador anônimo de visitas → nota de método com o lugar, o tempo, a justificativa e os três textos do autor → ajustes de conteúdo a partir dos ensaios (versão publicada 13) → quatro trilhas, com a escola e o professor da educação básica (versão publicada 14) → instalável no celular, sem loja (versão publicada 15).
 
 Ajustes da versão publicada 13, tirados dos ensaios do autor:
 - Declaração de uso: "relevante" inclui o uso que alterou o conjunto de fontes, como a sugestão de termos de busca numa revisão bibliográfica (ensaio B, ambiguidade).
