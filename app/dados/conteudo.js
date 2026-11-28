@@ -87,6 +87,11 @@ window.DADOS = {
                      responsabilidade: "responsabilidade intelectual", direitos: "proteção de direitos" }
   },
 
+  /* Variantes com defeito próprias desta trilha (além das já conhecidas do motor). */
+  riscos: {
+    sancao_servidor: { codigo: "SANCAO_SEM_COMPETENCIA", nivel: "erro", msg: "Esta instância não pode criar pena para professor ou gestor: a sanção disciplinar de servidor depende de lei (o estatuto), e a de empregado, do contrato de trabalho. A norma pode desfazer o ato irregular (a nota dada só pela IA, por exemplo) e encaminhar o caso ao regime disciplinar.", fonte: "CF, art. 5º, XXXIX e LV; Lei nº 8.112/1990, art. 127 (servidores federais); estatutos estaduais e municipais; CLT" }
+  },
+
   /* ---------- Doutrina: tipos de prescrição ---------- */
   tipos: {
     obrigacao:   { nome: "Obrigação", cor: "azul",
@@ -283,6 +288,22 @@ window.DADOS = {
         { tipo: "consequencia", rotulo: "Reprovação por uso inadequado", risco: "vaga",
           caput: "O uso inadequado de inteligência artificial acarretará a reprovação do discente.",
           ficha: { conteudo: "reprovar", condicao: "\"uso inadequado\"", destinatario: "não identificado", ocasiao: "—", meio: "autoridade", consequencia: "reprovação" } } ] },
+
+    { id: "consequencias_docentes", cap: "consequencias", titulo: "Se o professor ou o gestor descumprir", cobre: [], base: "Res. CNE/CP 1/2026, arts. 14, 40, § 3º, e 41; CF, art. 5º, LV; Lei nº 8.112/1990, arts. 116, 117 e 127 (servidores federais)",
+      casos: [], instancias: ["conselho", "reitoria", "proreitoria", "ppg", "curso", "extensao"],
+      variantes: [
+        { tipo: "consequencia", rotulo: "Desfazer o ato e remeter ao regime disciplinar",
+          caput: "Quando o descumprimento desta norma for de docente, avaliador, orientador ou gestor:",
+          incisos: ["a nota, o parecer ou a decisão produzidos em desacordo com esta norma não produzirão efeito e serão refeitos por pessoa designada pela {CHEFIA}, a pedido do interessado ou de ofício;",
+                    "a {CHEFIA} dará ciência do fato ao responsável e registrará a correção;",
+                    "havendo indício de infração funcional, inclusive reincidência, a {CHEFIA} comunicará o fato à autoridade competente para apuração nos termos do regime disciplinar aplicável, assegurados o contraditório e a ampla defesa."],
+          paragrafos: ["Esta norma não cria sanção disciplinar: as penalidades de servidores e empregados são as previstas na lei ou no contrato de trabalho que rege cada vínculo."],
+          ficha: { conteudo: "desfazer o ato irregular, registrar e encaminhar ao regime disciplinar", condicao: "descumprimento por docente, avaliador, orientador ou gestor",
+                   destinatario: "{CHEFIA} (apura e encaminha); docentes, avaliadores, orientadores e gestores (afetados)", ocasiao: "a cada caso", meio: "autoridade e organização",
+                   consequencia: "ato sem efeito e refeito por pessoa; remessa ao regime disciplinar" } },
+        { tipo: "consequencia", rotulo: "Punir o professor diretamente (erro comum)", risco: "sancao_servidor",
+          caput: "O docente que descumprir esta norma será punido com advertência e, na reincidência, com suspensão de suas atividades por trinta dias.",
+          ficha: { conteudo: "advertir e suspender", condicao: "descumprimento pelo docente", destinatario: "docente", ocasiao: "—", meio: "autoridade", consequencia: "advertência e suspensão" } } ] },
 
     { id: "orientador", cap: "transparencia", titulo: "O papel do orientador", cobre: ["integridade", "transparencia"], base: "Res. CNE/CP 1/2026, arts. 10, § 1º, e 28",
       casos: [], instancias: ["conselho", "proreitoria", "ppg", "curso"],

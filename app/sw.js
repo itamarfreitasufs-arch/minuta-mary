@@ -1,9 +1,9 @@
 /* Minuta, Mary! — funcionamento sem internet.
    Regra: com internet, sempre a versão publicada mais recente (rede primeiro); sem internet, a última cópia guardada.
    Não guarda nada do que a pessoa escreve (isso fica no localStorage do aparelho) e não toca no contador. */
-const CACHE = "mary-v16";
-const BASICO = ["./", "index.html", "app.js?v=16", "motor.js?v=16", "docx.js?v=16", "dados/conteudo.js?v=16", "dados/casos.js?v=16",
-  "dados/basica.js?v=16", "dados/basica_aula.js?v=16", "manifest.webmanifest",
+const CACHE = "mary-v17";
+const BASICO = ["./", "index.html", "app.js?v=17", "motor.js?v=17", "docx.js?v=17", "dados/conteudo.js?v=17", "dados/casos.js?v=17",
+  "dados/basica.js?v=17", "dados/basica_aula.js?v=17", "manifest.webmanifest",
   "icones/icone-192.png", "icones/icone-512.png", "icones/icone-maskable-512.png", "icones/apple-touch-icon.png"];
 
 self.addEventListener("install", ev => {

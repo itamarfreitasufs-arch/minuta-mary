@@ -78,6 +78,7 @@ window.TRILHAS.basica = {
 
   /* Variantes com defeito que a revisão deve reprovar (além das já conhecidas do motor). */
   riscos: {
+    sancao_servidor: { codigo: "SANCAO_SEM_COMPETENCIA", nivel: "erro", msg: "Esta instância não pode criar pena para professor ou gestor: a sanção disciplinar de servidor depende de lei (o estatuto), e a de empregado, do contrato de trabalho. A norma pode desfazer o ato irregular (a nota dada só pela IA, por exemplo) e encaminhar o caso ao regime disciplinar.", fonte: "CF, art. 5º, XXXIX e LV; Lei nº 8.112/1990, art. 127 (servidores federais); estatutos estaduais e municipais; CLT" },
     infantil: { codigo: "VEDADO_ETAPA", nivel: "erro", msg: "Permite que crianças da Educação Infantil usem IA. A Resolução proíbe qualquer uso pelas crianças, mesmo com mediação.", fonte: "Res. CNE/CP 1/2026, art. 21, § 1º" },
     iniciais: { codigo: "VEDADO_ETAPA", nivel: "erro", msg: "Permite que alunos dos anos iniciais conversem com IA generativa. A Resolução proíbe, ainda que haja supervisão.", fonte: "Res. CNE/CP 1/2026, art. 22, § 2º" },
     finais: { codigo: "VEDADO_ETAPA", nivel: "erro", msg: "Permite uso livre de IA generativa nos anos finais. A Resolução só admite o uso em atividade mediada pelo professor.", fonte: "Res. CNE/CP 1/2026, art. 23" },
@@ -373,6 +374,39 @@ window.TRILHAS.basica = {
         { tipo: "consequencia", rotulo: "Nota zero e advertência por \"uso inadequado\"", risco: "vaga",
           caput: "O uso inadequado de inteligência artificial pelo aluno acarretará nota zero e advertência.",
           ficha: { conteudo: "dar nota zero e advertir", condicao: "\"uso inadequado\"", destinatario: "não identificado", ocasiao: "—", meio: "autoridade", consequencia: "nota zero e advertência" } } ] },
+
+    { id: "consequencias_medio", cap: "consequencias", titulo: "Se o estudante do Ensino Médio descumprir", cobre: [], base: "Res. CNE/CP 1/2026, arts. 10, § 1º, 20, VII, e 41, X; Lei nº 8.069/1990 (ECA), arts. 53, III, e 100; regimento escolar",
+      casos: [], instancias: "todas",
+      variantes: [
+        { tipo: "consequencia", rotulo: "Medidas em degraus, pedagógicas primeiro",
+          caput: "O estudante do Ensino Médio que usar inteligência artificial em atividade em que o uso não era permitido, ou que deixar de informar o uso quando exigido, estará sujeito, apurado o fato nos termos desta norma e conforme a gravidade e a repetição, a:",
+          incisos: ["orientação pelo professor e nova entrega da atividade, com acompanhamento, valendo a nova nota;",
+                    "na repetição, nova avaliação da atividade feita em sala, sem uso da ferramenta;",
+                    "nos casos graves, como apresentar como próprio um trabalho inteiro produzido pela ferramenta, nota zero naquela atividade e as medidas previstas no regimento escolar, com comunicação à família."],
+          paragrafos: ["Nenhuma medida será aplicada com base exclusiva em resultado de detector, que vale só como indício, nem por uso que não tenha sido vedado com antecedência.",
+                       "As medidas têm caráter pedagógico, observam o Estatuto da Criança e do Adolescente e garantem ao estudante o direito de contestar a decisão perante a Direção da Escola."],
+          ficha: { conteudo: "aplicar medidas em degraus: refazer, reavaliar em sala, regimento nos casos graves", condicao: "uso não permitido ou não informado, apurado",
+                   destinatario: "estudantes do Ensino Médio (afetados); professor e Direção da Escola (apuram)", ocasiao: "a cada caso, conforme a gravidade e a repetição",
+                   meio: "autoridade", consequencia: "nova entrega; reavaliação em sala; nota zero na atividade e regimento escolar" } },
+        { tipo: "consequencia", rotulo: "Nota zero e suspensão por \"uso indevido\" (erro comum)", risco: "vaga",
+          caput: "O aluno do Ensino Médio que fizer uso indevido de inteligência artificial receberá nota zero e será suspenso por três dias.",
+          ficha: { conteudo: "dar nota zero e suspender", condicao: "\"uso indevido\"", destinatario: "aluno do Ensino Médio", ocasiao: "—", meio: "autoridade", consequencia: "nota zero e suspensão" } } ] },
+
+    { id: "consequencias_docentes", cap: "consequencias", titulo: "Se o professor ou o gestor descumprir", cobre: ["supervisao"], base: "Res. CNE/CP 1/2026, arts. 14, 40, § 3º, e 41; CF, art. 5º, LV; estatuto do magistério ou dos servidores; CLT",
+      casos: [], instancias: "todas",
+      variantes: [
+        { tipo: "consequencia", rotulo: "Desfazer o ato e remeter ao regime disciplinar",
+          caput: "Quando o descumprimento desta norma for de professor, coordenador ou gestor:",
+          incisos: ["a nota, o relatório ou a decisão produzidos em desacordo com esta norma não produzirão efeito e serão refeitos por pessoa designada pela {CHEFIA}, a pedido do estudante, da família ou de ofício;",
+                    "a {CHEFIA} dará ciência do fato ao responsável e registrará a correção;",
+                    "havendo indício de infração funcional, inclusive reincidência, a {CHEFIA} comunicará o fato à autoridade competente para apuração nos termos do estatuto do magistério, do estatuto dos servidores ou do contrato de trabalho, assegurados o contraditório e a ampla defesa."],
+          paragrafos: ["Esta norma não cria sanção disciplinar: as penalidades dos profissionais da educação são as previstas na lei ou no contrato de trabalho que rege cada vínculo."],
+          ficha: { conteudo: "desfazer o ato irregular, registrar e encaminhar ao regime disciplinar", condicao: "descumprimento por professor, coordenador ou gestor",
+                   destinatario: "{CHEFIA} (apura e encaminha); professores, coordenadores e gestores (afetados)", ocasiao: "a cada caso", meio: "autoridade e organização",
+                   consequencia: "ato sem efeito e refeito por pessoa; remessa ao regime disciplinar" } },
+        { tipo: "consequencia", rotulo: "Punir o professor diretamente (erro comum)", risco: "sancao_servidor",
+          caput: "O professor que descumprir esta norma será punido com advertência e, na reincidência, com suspensão de suas atividades por trinta dias.",
+          ficha: { conteudo: "advertir e suspender", condicao: "descumprimento pelo professor", destinatario: "professor", ocasiao: "—", meio: "autoridade", consequencia: "advertência e suspensão" } } ] },
 
     { id: "apuracao", cap: "consequencias", titulo: "Como se apura (inclusive acusação por detector)", cobre: ["familias"], base: "Res. CNE/CP 1/2026, arts. 40, § 3º, e 41, X", casos: [], instancias: "todas",
       variantes: [

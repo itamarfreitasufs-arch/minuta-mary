@@ -1,5 +1,10 @@
 # Histórico de alterações
 
+## 1.4 — 27 de novembro de 2026 — experimental
+
+- Tema "Se o professor ou o gestor descumprir" (universidade e escola): o ato feito contra a norma não vale e é refeito por pessoa; registro; remessa ao regime disciplinar. A opção "Punir o professor diretamente" é o erro comum: a revisão a aponta (SANCAO_SEM_COMPETENCIA), porque a pena de servidor ou empregado vem da lei ou do contrato.
+- Tema "Se o estudante do Ensino Médio descumprir" (escola): medidas em degraus (nova entrega; reavaliação em sala; nos casos graves, nota zero na atividade, regimento e aviso à família), sem punição só por detector nem por uso não vedado antes. Pedidos da turma do curso.
+
 ## 1.3 — 27 de novembro de 2026 — experimental
 
 - "Baixar o arquivo (.docx)": arquivo Word de verdade (`app/docx.js`, sem bibliotecas), que abre no Word e no Google Docs. Substitui o antigo .doc (HTML), que alguns navegadores acusavam de corrompido.

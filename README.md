@@ -1,6 +1,6 @@
 # Minuta, Mary! — Writing AI policies | Escola de legisladores
 
-> **Versão em teste (1.3, 27 de novembro de 2026).** Novas versões podem sair a qualquer momento. Avise se algo não servir à sua instituição.
+> **Versão em teste (1.4, 27 de novembro de 2026).** Novas versões podem sair a qualquer momento. Avise se algo não servir à sua instituição.
 
 Protocolo de **Itamar Freitas** (Universidade Federal de Sergipe), preparado com assistência de IA.
 
