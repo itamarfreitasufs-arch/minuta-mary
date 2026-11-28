@@ -93,7 +93,7 @@ Primeira versão: educação superior, em sete instâncias (conselho superior, r
 ## 1E. Consequências para professores, gestores e estudantes do Ensino Médio (versão publicada 17)
 
 - Pedido da turma: "por que não há uma aba para escolher punições para os professores?". Resposta incorporada ao app: uma norma de colegiado, pró-reitoria ou escola não cria pena para servidor ou empregado (a sanção vem da lei, como o estatuto do servidor, ou do contrato de trabalho; CF, art. 5º, XXXIX e LV). O que ela pode fazer: tornar sem efeito o ato feito contra a norma (a nota dada só pela IA, por exemplo) e mandar refazê-lo por pessoa, registrar o fato e encaminhar o caso ao regime disciplinar. Tema novo "Se o professor ou o gestor descumprir", com a variante "Punir o professor diretamente" como erro comum, que a revisão aponta (SANCAO_SEM_COMPETENCIA).
-- Ensino Médio: tema "Se o estudante do Ensino Médio descumprir", com medidas em degraus (nova entrega com acompanhamento; reavaliação em sala; nos casos graves, nota zero naquela atividade, regimento escolar e aviso à família), sem medida baseada só em detector nem por uso não vedado antes, com direito de contestação (ECA, art. 53, III). A variante "nota zero e suspensão por uso indevido" é o erro comum.
+- Ensino Médio: tema "Se o estudante do Ensino Médio descumprir", com medidas graduais (nova entrega com acompanhamento; reavaliação em sala; nos casos graves, nota zero naquela atividade, regimento escolar e aviso à família), sem medida baseada só em detector nem por uso não vedado antes, com direito de contestação (ECA, art. 53, III). A variante "nota zero e suspensão por uso indevido" é o erro comum.
 
 ---
 
